@@ -10,4 +10,13 @@ const createCategory = async (req, res) => {
   }
 };
 
-module.exports = { createCategory };
+const getCategories = async (_req, res) => {
+  try {
+    const categories = await categoryService.getCategories();
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+module.exports = { createCategory, getCategories };
