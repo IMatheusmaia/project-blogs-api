@@ -18,7 +18,7 @@ const authorization = async (req, res, next) => {
     const isUser = await userService.findUserExists(dataUser);
 
     if (!isUser) {
-      return res.status(401).json({ message: 'Expired or invalid token' });
+      return res.status(401).json({ message: 'User not found' });
     }
 
     next();
