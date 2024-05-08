@@ -33,7 +33,18 @@ const findEmail = async (req, res, next) => {
   }
 };
 
+const getUser = async (_req, res) => {
+  try {
+    const user = await userService.getUsers();
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
 module.exports = {
   findUser,
   findEmail,
+  getUser,
 };
