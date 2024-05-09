@@ -19,13 +19,13 @@ const findEmail = async (req, res, next) => {
   try {
     const { body } = req;
     const user = await userService.findUserExists(body);
-
     if (user) {
       return res.status(409).json({
         message: 'User already registered',
       });
     }
-    await userService.createUser(body);
+    const newUser = await userService.createUser(body);
+    req.userData = { id: newUser.id, email: newUser.email };
     next();
   } catch (error) {
     res.status(500).json(error.message);
