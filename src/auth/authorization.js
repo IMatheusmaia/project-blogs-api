@@ -12,14 +12,14 @@ const authorization = async (req, res, next) => {
     }
     const token = auth.split(' ')[1];
     const decoded = jwt.verify(token, secret);
-
-    const dataUser = { email: decoded.user };
-
+    
+    const dataUser = { id: decoded.id, email: decoded.email };
     const isUser = await userService.findUserExists(dataUser);
 
     if (!isUser) {
       return res.status(401).json({ message: 'User not found' });
     }
+    req.dataUser = dataUser;
 
     next();
   } catch (error) {

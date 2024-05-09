@@ -4,12 +4,12 @@ const findUser = async (req, res, next) => {
   try {
     const { body } = req;
     const user = await userService.findUser(body);
-
     if (!user) {
       return res.status(400).json({
         message: 'Invalid fields',
       }); 
     }
+    req.userData = { id: user.id, email: user.email };
     next();
   } catch (error) {
     res.status(500).json(error.message);
