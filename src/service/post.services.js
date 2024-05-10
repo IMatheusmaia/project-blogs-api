@@ -5,24 +5,48 @@ const createPost = async (body) => {
 
   return post;
 };
-
 const getAllPosts = async () => {
   const posts = await BlogPost.findAll({
-    include: ['user', {
-      model: Category,
-      as: 'categories',
-      through: { model: PostCategory, attributes: [] },
-    },
-    {
+    include: [{
       model: User,
       as: 'user',
       attributes: { exclude: ['password'] },
     },
-    // { model: PostCategory, as: 'postCategories' },
+    {
+      model: Category,
+      as: 'categories',
+      through: { model: PostCategory, attributes: [] },
+    },
     ],
   });
 
   return posts;
 };
+const getPostById = async ({ id }) => {
+  const posts = await BlogPost.findOne({
+    where: { id },
+    include: [{
+      model: User,
+      as: 'user',
+      attributes: { exclude: ['password'] },
+    },
+    {
+      model: Category,
+      as: 'categories',
+      through: { model: PostCategory, attributes: [] },
+    },
+    ],
+  });
 
-module.exports = { createPost, getAllPosts };
+  return posts;
+};
+const updatePost = async (body, { id }) => {
+  const post = await BlogPost.update(body, {
+    where: { id },
+    returning: true,
+  });
+  console.log(post);
+  return post;
+};
+
+module.exports = { createPost, getAllPosts, getPostById, updatePost };
