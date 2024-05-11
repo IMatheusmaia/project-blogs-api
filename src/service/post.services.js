@@ -41,11 +41,11 @@ const getPostById = async ({ id }) => {
   return posts;
 };
 const updatePost = async (body, { id }) => {
-  const post = await BlogPost.update(body, {
-    where: { id },
+  await BlogPost.update(body, {
     returning: true,
+    where: { id },
   });
-  console.log(post);
+  const post = await getPostById({ id });
   return post;
 };
 
